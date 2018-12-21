@@ -4,8 +4,8 @@ use Core\Controller;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function show($id)
     {
-
+        var_dump($id);
     }
 }

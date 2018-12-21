@@ -10,10 +10,10 @@ Core\Loader::models();
 require 'core/database/Connection.php';
 require 'core/database/QueryBuilder.php';
 require 'core/Controller.php';
-require 'core/ViewsHelper.php';
+require 'core/Helpers.php';
 require 'core/routing/Route.php';
 require 'core/routing/Router.php';
-require 'core/Request.php';
+// require 'core/Request.php';
 require 'routes.php';
 
 

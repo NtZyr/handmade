@@ -21,4 +21,16 @@ class QueryBuilder
         $query->execute();
         return $query->fetchAll(PDO::FETCH_CLASS);
     }
+
+    public function insert(string $table, array $fillable)
+    {
+        $fields = implode(', ', $fillable);
+        foreach ($fillable as $value) {
+            $values[] = ":$value";
+        }
+        $values = implode(', ', $values);
+        $query = $this->pdo->prepare("insert into {$table} ($fillable) values ($values)");
+
+        echo "insert into {$table} ($fillable) values ($values)";
+    }
 }

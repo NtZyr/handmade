@@ -8,6 +8,7 @@ class Route
 {
     private $_url;
     private $_callback;
+    private $_key;
 
     public function __construct($url, $callback)
     {
@@ -37,7 +38,6 @@ class Route
             require_once 'controllers/' . $aCallback[0] . '.php'; // instead of including the class you can make usage of http://php.net/manual/en/function.spl-autoload-register.php
             $this->_callback[0] = new $aCallback[0];
             $this->_callback[1] = $aCallback[1];
-            // $this->_callback = $aCallback;
         } else {
             throw new InvalidArgumentException('$callback is invalid.');
         }
@@ -45,7 +45,15 @@ class Route
 
     public function _setURL($url)
     {
-        $this->_url = '/^' . str_replace('/', '\\/', $url) . '$/';
+        preg_match('/\/\{(.*?)\}/', $url, $matches);
+        // var_dump($matches);
+        // if ($matches) {
+        //     $this->_key = $matches[1];
+        //     $url = str_replace($matches[0], '/', $url);
+        // }
+        // var_dump($url);
+        // $this->_url = '/^' . str_replace('/', '\\/', $url) . '$/';
+        $this->_url = $url;
     }
 
     public function getURL()

@@ -4,12 +4,12 @@ use Core\Controller;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function show($id)
     {
-        $products = App\Product::all();
+        // $products = App\Product::all();
 
-        echo 'shop';
-        // view('product/index');
-        // return lol;
+        var_dump($id);
+
+        // return view('product/index');
     }
 }
