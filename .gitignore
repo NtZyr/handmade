@@ -1,8 +1,8 @@
-controllers/**/*.*
-models/**/*.*
-views/**/*.*
-storage/**/*.*
-public/**/*.*
+controllers/**/*.php
+models/**/*.php
+views/**/*.php
+storage/**/*
+public/**/*
 **/.DS_Store
 config.php
 routes.php
