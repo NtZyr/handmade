@@ -13,6 +13,6 @@ class UserController extends Controller
 
     public function register()
     {
-        return view('user/registration');
+        return view('user/signup');
     }
 }

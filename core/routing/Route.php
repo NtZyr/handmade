@@ -8,7 +8,6 @@ class Route
 {
     private $_url;
     private $_callback;
-    private $_key;
 
     public function __construct($url, $callback)
     {
@@ -22,7 +21,6 @@ class Route
         try {
             $this->_setCallback($callback);
         } catch (InvalidArgumentException $e) {
-            var_dump($this->_setCallback($callback));
             exit('Error!');
         }
     }
