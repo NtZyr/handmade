@@ -4,3 +4,5 @@ public/**
 models/**
 storage/**
 controllers/**
+config.php
+routes.php
