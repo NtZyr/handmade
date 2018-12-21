@@ -1,4 +1,6 @@
 views/**
-views/*
 public/**
 **/.DS_Store
+models/**
+storage/**
+controllers/**
