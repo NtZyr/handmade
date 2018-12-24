@@ -4,6 +4,7 @@ $app = require 'config.php';
 
 require 'core/Loader.php';
 
+require 'core/Relationship.php';
 require 'core/Model.php';
 Core\Loader::models();
 

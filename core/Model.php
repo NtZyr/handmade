@@ -8,47 +8,87 @@ use Core\Database\Connection;
 
 class Model
 {
+    use Relationship;
+
+    protected $connection;
     protected $result;
-    protected $fields;
 
     public function __construct()
     {
-
+        $this->connection = new QueryBuilder(Connection::make());
+        if ($this->result) {
+            $result = $this->result;
+            return $result;
+        }
+        return $this;
     }
 
     public function __set($name, $value)
     {
-        $this->fields[$name] = $value;
+        $this->$name = $value;
+    }
+
+    public function __get($name)
+    {
+        if ($this->result != null) {
+            $result = $this->result;
+            $this->$name = $result->$name;
+            return $this->$name;
+        }
     }
 
     public function save()
     {
         $table = static::$table;
-        $connect = new QueryBuilder(Connection::make());
+        $connect = $this->connection;
+        $fields = $this->fillable;
 
-        $result = $connect->insert($table, $fillable);
+        foreach ($fields as $field) {
+            if ($this->$field != '') {
+                $values[$field] = $this->$field;
+            } else {
+                $key = array_search($field, $fields);
+                if ($key !== false) {
+                    unset($fields[$key]);
+                }
+            }
+        }
+
+        $result = $connect->insert($table, $fields, $values);
     }
 
     public static function all()
     {
         $table = static::$table;
-        $connect = new QueryBuilder(Connection::make());
+        $query = new self;
 
-        $result = $connect->selectAll($table);
+        $result = $query->connection->selectAll($table);
         $arrayResult = [];
 
         foreach ($result as $row) {
             $arrayResult[] = $row;
         }
 
-        $query = new self;
         $query->result = $arrayResult;
 
         return $query->result;
     }
 
-    public static function find($id)
+    public static function getBy($field, $value)
     {
+        $table = static::$table;
+        $query = new self;
 
+        $result = $query->connection->get($table, $field, $value);
+
+        foreach ($result as $row) {
+            $arrayResult[] = $row;
+        }
+
+        if ($result) {
+            $query->result = reset($arrayResult);
+        }
+
+        return $query;
     }
 }

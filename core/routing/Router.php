@@ -67,14 +67,17 @@ class Router
             }
 
             if ($block_num
+                && isset($url_blocks[$block_num - 1])
+                && isset($uri_blocks[$block_num - 1])
                 && $url_blocks[$block_num - 1] == $uri_blocks[$block_num - 1]) {
+                if (isset($url_blocks[$block_num])
+                    && isset($uri_blocks[$block_num])) {
+                    $vars[$url_blocks[$block_num]] = $uri_blocks[$block_num];
+                }
                 $_callback = $callback;
-                $vars[$url_blocks[$block_num]] = $uri_blocks[$block_num];
             }
         }
 
-        if ($vars) {
-            return self::action($_callback, $vars);
-        }
+        return self::action($_callback, $vars);
     }
 }
