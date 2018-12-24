@@ -4,8 +4,8 @@ namespace Core;
 
 trait Relationship
 {
-    public function hasMany()
+    public function hasMany($model, $field, $value)
     {
-        var_dump('lol');
+        return $model::getBy($field, $value)->result;
     }
 }

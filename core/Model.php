@@ -31,7 +31,7 @@ class Model
     public function __get($name)
     {
         if ($this->result != null) {
-            $result = $this->result;
+            $result = $this->result[0];
             $this->$name = $result->$name;
             return $this->$name;
         }
@@ -60,7 +60,7 @@ class Model
     public static function all()
     {
         $table = static::$table;
-        $query = new self;
+        $query = new static;
 
         $result = $query->connection->selectAll($table);
         $arrayResult = [];
@@ -74,20 +74,23 @@ class Model
         return $query->result;
     }
 
+    public function first()
+    {
+        return $this->result[0];
+    }
+
     public static function getBy($field, $value)
     {
         $table = static::$table;
-        $query = new self;
+        $query = new static;
+        $arrayResult = [];
 
         $result = $query->connection->get($table, $field, $value);
 
         foreach ($result as $row) {
             $arrayResult[] = $row;
         }
-
-        if ($result) {
-            $query->result = reset($arrayResult);
-        }
+        $query->result = $arrayResult;
 
         return $query;
     }
