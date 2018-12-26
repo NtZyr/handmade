@@ -54,31 +54,18 @@ class Router
             return self::action($_callback);
         }
 
-        $uri_blocks = explode('/', $requestUri);
+        $uri_array = explode('/', $requestUri);
         $vars = [];
 
         foreach ($routes as $url => $callback) {
-            $url_blocks = explode('/', $url);
-
-            foreach ($url_blocks as $key => $block) {
-                if (preg_match('/\{(.*?)\}/', $block, $var)) {
-                    $block_num = array_search($var[0], $url_blocks);
-                }
-            }
-            if (isset($block_num)) {
-                if (($block_num == count($uri_blocks) - 1 || $block_num == count($uri_blocks))
-                    && isset($url_blocks[$block_num - 1])
-                    && isset($uri_blocks[$block_num - 1])
-                    && $url_blocks[$block_num - 1] === $uri_blocks[$block_num - 1]) {
-                    if (isset($url_blocks[$block_num])
-                        && isset($uri_blocks[$block_num])) {
-                        $vars[$url_blocks[$block_num]] = $uri_blocks[$block_num];
-                    }
-                    $_callback = $callback;
-                }
+            $url_array = preg_split('/\:/', $url);
+            $uri = substr($requestUri, 0, strrpos($requestUri, '/', 0) + 1) ? : '/';
+            if ($url_array[0] == $uri) {
+                $value = substr($requestUri, strlen($url_array[0]));
+                $var[$url_array[1]] = $value;
+                $_callback = $callback;
+                return self::action($_callback, $var);
             }
         }
-
-        return self::action($_callback, $vars);
     }
 }
