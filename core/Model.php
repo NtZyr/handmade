@@ -37,6 +37,16 @@ class Model
         }
     }
 
+    public function delete()
+    {
+        $table = static::$table;
+        $connect = $this->connection;
+
+        $result = $connect->delete($table, $this->id);
+
+        return $result;
+    }
+
     public function save()
     {
         $table = static::$table;
@@ -54,7 +64,18 @@ class Model
             }
         }
 
-        $result = $connect->insert($table, $fields, $values);
+        if (isset($this->id)) {
+            $where['field'] = 'id';
+            $where['value'] = $this->id;
+            $values['id'] = $this->id;
+            $result = $connect->update($table, $fields, $values, $where);
+        } else {
+            $result = $connect->insert($table, $fields, $values);
+        }
+
+        $this->id = $result;
+
+        return $result;
     }
 
     public static function all()
@@ -77,6 +98,11 @@ class Model
     public function first()
     {
         return $this->result[0];
+    }
+
+    public function result()
+    {
+        return $this->result;
     }
 
     public static function getBy($field, $value)

@@ -65,16 +65,17 @@ class Router
                     $block_num = array_search($var[0], $url_blocks);
                 }
             }
-            if ($block_num
-                && ($block_num == count($uri_blocks) - 1 || $block_num == count($uri_blocks))
-                && isset($url_blocks[$block_num - 1])
-                && isset($uri_blocks[$block_num - 1])
-                && $url_blocks[$block_num - 1] === $uri_blocks[$block_num - 1]) {
-                if (isset($url_blocks[$block_num])
-                    && isset($uri_blocks[$block_num])) {
-                    $vars[$url_blocks[$block_num]] = $uri_blocks[$block_num];
+            if (isset($block_num)) {
+                if (($block_num == count($uri_blocks) - 1 || $block_num == count($uri_blocks))
+                    && isset($url_blocks[$block_num - 1])
+                    && isset($uri_blocks[$block_num - 1])
+                    && $url_blocks[$block_num - 1] === $uri_blocks[$block_num - 1]) {
+                    if (isset($url_blocks[$block_num])
+                        && isset($uri_blocks[$block_num])) {
+                        $vars[$url_blocks[$block_num]] = $uri_blocks[$block_num];
+                    }
+                    $_callback = $callback;
                 }
-                $_callback = $callback;
             }
         }
 

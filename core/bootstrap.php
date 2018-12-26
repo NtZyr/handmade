@@ -1,11 +1,18 @@
 <?php
 
+use Core\Http\Request;
+
+session_start();
+
+// var_dump($_SESSION);
+
 $app = require 'config.php';
 
 require 'core/Loader.php';
 
 require 'core/Relationship.php';
 require 'core/Model.php';
+
 Core\Loader::models();
 
 require 'core/database/Connection.php';
@@ -14,7 +21,6 @@ require 'core/Controller.php';
 require 'core/Helpers.php';
 require 'core/routing/Route.php';
 require 'core/routing/Router.php';
-// require 'core/Request.php';
 require 'routes.php';
 
 
