@@ -19,6 +19,7 @@ require 'core/database/Connection.php';
 require 'core/database/QueryBuilder.php';
 require 'core/Controller.php';
 require 'core/Helpers.php';
+require 'core/Storage.php';
 require 'core/routing/Route.php';
 require 'core/routing/Router.php';
 require 'routes.php';
